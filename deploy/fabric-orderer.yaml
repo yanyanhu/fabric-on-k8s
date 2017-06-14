@@ -1,0 +1,79 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: fabric-orderer
+  labels:
+    app: fabric-orderer
+spec:
+  ports:
+  - port: 7050
+    targetPort: 7050
+  selector:
+    app: fabric-orderer
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: fabric-orderer
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: fabric-orderer
+    spec:
+      containers:
+      - name: fabric-orderer
+        image: bit-docker-local.artifactory.swg-devops.com/blue-audit/hyperledger-fabric-orderer:javasdk-alpha3
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 7050
+        command: ["orderer", "start"]
+        volumeMounts:
+        - mountPath: /var/hyperledger/orderer/orderer.genesis.block
+          name: orderer-genesis-block-volume
+        - mountPath: /var/hyperledger/orderer/msp
+          name: orderer-msp-volume
+        - mountPath: /var/hyperledger/orderer/tls
+          name: orderer-tls-volume
+        env:
+        - name: ORDERER_GENERAL_LOGLEVEL
+          value: "DEBUG"
+        - name: ORDERER_GENERAL_LISTENADDRESS
+          value: "0.0.0.0"
+        - name: ORDERER_GENERAL_GENESISMETHOD
+          value: "file"
+        - name: ORDERER_GENERAL_GENESISFILE
+          value: "/var/hyperledger/orderer/orderer.genesis.block"
+        - name: ORDERER_GENERAL_LOCALMSPID
+          value: "OrdererMSP"
+        - name: ORDERER_GENERAL_LOCALMSPDIR
+          value: "/var/hyperledger/orderer/msp"
+        - name: ORDERER_GENERAL_LEDGERTYPE
+          value: "file"
+        - name: ORDERER_GENERAL_BATCHTIMEOUT
+          value: "2s"
+        - name: ORDERER_GENERAL_MAXMESSAGECOUNT
+          value: "10"
+        - name: ORDERER_GENERAL_MAXWINDOWSIZE
+          value: "1000"
+        - name: ORDERER_GENERAL_LISTENPORT
+          value: "7050"
+        - name: ORDERER_GENERAL_TLS_ENABLED
+          value: "false"
+        - name: ORDERER_GENERAL_TLS_PRIVATEKEY
+          value: "/var/hyperledger/orderer/tls/server.key"
+        - name: ORDERER_GENERAL_TLS_CERTIFICATE
+          value: "/var/hyperledger/orderer/tls/server.crt"
+        - name: ORDERER_GENERAL_TLS_ROOTCAS
+          value: "[/var/hyperledger/orderer/tls/ca.crt]"
+      volumes:
+      - name: orderer-genesis-block-volume
+        hostPath:
+          path: /opt/e2e_cli/channel-artifacts/orderer.genesis.block
+      - name: orderer-msp-volume
+        hostPath:
+          path: /opt/e2e_cli/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/msp
+      - name: orderer-tls-volume
+        hostPath:
+          path: /opt/e2e_cli/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls
