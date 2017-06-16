@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: fabric-zookeeper
+  labels:
+    app: fabric-zookeeper
+spec:
+  ports:
+  - port: 2181
+    targetPort: 2181
+  selector:
+    app: fabric-zookeeper
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: fabric-zookeeper
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: fabric-zookeeper
+    spec:
+      containers:
+      - name: fabric-zookeeper
+        image: hyperledger/fabric-zookeeper
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 2181

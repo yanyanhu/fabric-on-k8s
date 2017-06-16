@@ -24,11 +24,11 @@ spec:
     spec:
       containers:
       - name: fabric-orderer
-        image: hyperledger/fabric-orderer
-        imagePullPolicy: Never
+        image: bit-docker-local.artifactory.swg-devops.com/blue-audit/hyperledger-fabric-orderer:javasdk-alpha3
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 7050
-        command: ["orderer"]
+        command: ["orderer", "start"]
         volumeMounts:
         - mountPath: /var/hyperledger/orderer/orderer.genesis.block
           name: orderer-genesis-block-volume
@@ -49,18 +49,24 @@ spec:
           value: "OrdererMSP"
         - name: ORDERER_GENERAL_LOCALMSPDIR
           value: "/var/hyperledger/orderer/msp"
+        - name: ORDERER_GENERAL_LEDGERTYPE
+          value: "file"
+        - name: ORDERER_GENERAL_BATCHTIMEOUT
+          value: "2s"
+        - name: ORDERER_GENERAL_MAXMESSAGECOUNT
+          value: "10"
+        - name: ORDERER_GENERAL_MAXWINDOWSIZE
+          value: "1000"
         - name: ORDERER_GENERAL_LISTENPORT
           value: "7050"
         - name: ORDERER_GENERAL_TLS_ENABLED
-          value: "true"
+          value: "false"
         - name: ORDERER_GENERAL_TLS_PRIVATEKEY
           value: "/var/hyperledger/orderer/tls/server.key"
         - name: ORDERER_GENERAL_TLS_CERTIFICATE
           value: "/var/hyperledger/orderer/tls/server.crt"
         - name: ORDERER_GENERAL_TLS_ROOTCAS
           value: "[/var/hyperledger/orderer/tls/ca.crt]"
-        - name: ORDERER_KAFKA_VERBOSE
-          value: "true"
       volumes:
       - name: orderer-genesis-block-volume
         hostPath:
