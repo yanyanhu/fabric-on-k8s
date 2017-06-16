@@ -48,8 +48,6 @@ spec:
           value: "fabric-peer1-org2:7051"
         - name: CORE_PEER_GOSSIP_EXTERNALENDPOINT
           value: "fabric-peer1-org2:7051"
-        - name: CORE_PEER_GOSSIP_ORGLEADER
-          value: "true"
         - name: CORE_PEER_LOCALMSPID
           value: "org2MSP"
         - name: CORE_PEER_ADDRESSAUTODETECT
@@ -64,12 +62,14 @@ spec:
           value: "true"
         - name: CORE_PEER_GOSSIP_USELEADERELECTION
           value: "true"
+        - name: CORE_PEER_GOSSIP_ORGLEADER
+          value: "false"
         - name: CORE_PEER_GOSSIP_SKIPHANDSHAKE
           value: "true"
         - name: CORE_PEER_PROFILE_ENABLED
           value: "true"
         - name: CORE_PEER_TLS_ENABLED
-          value: "true"
+          value: "false"
         - name: CORE_PEER_TLS_CERT_FILE
           value: "/etc/hyperledger/fabric/tls/server.crt"
         - name: CORE_PEER_TLS_KEY_FILE
@@ -79,7 +79,7 @@ spec:
         - name: CORE_LEDGER_STATE_STATEDATABASE
           value: "CouchDB"
         - name: CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS
-          value: "fabric-couchdb-01:5984"
+          value: "fabric-couchdb-04:5984"
       volumes:
       - name: docker-sock-volume
         hostPath:

@@ -11,23 +11,28 @@ spec:
     spec:
       containers:
       - name: fabric-test
-        image: hyperledger/fabric-test:latest
-        imagePullPolicy: IfNotPresent
-        command: ["/bin/bash"]
+        image: hyperledger/fabric-testenv
+        imagePullPolicy: Never
+        command: ["/bin/bash", "-c", "--"]
+        args: [ "while true; do sleep 30; done;" ]
         volumeMounts:
         - mountPath: /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
           name: crypto-config-volume
-        - mountPath: /etc/hyperledger/fabric/crypto-config
-          name: crypto-config-volume
-        - mountPath: /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto-config.yaml
-          name: crypto-config-yaml-volume
         - mountPath: /opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
           name: scripts-volume
         - mountPath: /opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
           name: channel-artifacts-volume
-        - mountPath: /opt/gopath/src/github.com/hyperledger/fabric/configtx.yaml
-          name: configtx-volume
+        - mountPath: /opt/gopath/src/githubx.com/hyperledger/fabric/examples
+          name: example-volume
+        - mountPath: /var/run/docker.sock
+          name: docker-sock-volume
         env:
+        - name: GOPATH
+          value: "/opt/gopath"
+        - name: CORE_VM_ENDPOINT
+          value: "unix:///host/var/run/docker.sock"
+        - name: CORE_LOGGING_LEVEL
+          value: "DEBUG"
         - name: CORE_PEER_ID
           value: "fabric-test"
         - name: CORE_PEER_ADDRESS
@@ -48,15 +53,15 @@ spec:
       - name: crypto-config-volume
         hostPath:
           path: /opt/e2e_cli/crypto-config
-      - name: crypto-config-yaml-volume
+      - name: example-volume
         hostPath:
-          path: /opt/e2e_cli/crypto-config.yaml
+          path: /opt/e2e_cli/examples/
       - name: scripts-volume
         hostPath:
-          path: /opt/scripts
+          path: /opt/e2e_cli/scripts
       - name: channel-artifacts-volume
         hostPath:
           path: /opt/e2e_cli/channel-artifacts
-      - name: configtx-volume
+      - name: docker-sock-volume
         hostPath:
-          path: /opt/e2e_cli/configtx.yaml
+          path: /var/run/docker.sock

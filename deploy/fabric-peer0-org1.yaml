@@ -48,8 +48,6 @@ spec:
           value: "fabric-peer0-org1:7051"
         - name: CORE_PEER_GOSSIP_EXTERNALENDPOINT
           value: "fabric-peer0-org1:7051"
-        - name: CORE_PEER_GOSSIP_ORGLEADER
-          value: "true"
         - name: CORE_PEER_LOCALMSPID
           value: "Org1MSP"
         - name: CORE_PEER_ADDRESSAUTODETECT
@@ -64,12 +62,14 @@ spec:
           value: "true"
         - name: CORE_PEER_GOSSIP_USELEADERELECTION
           value: "true"
+        - name: CORE_PEER_GOSSIP_ORGLEADER
+          value: "false"
         - name: CORE_PEER_GOSSIP_SKIPHANDSHAKE
           value: "true"
         - name: CORE_PEER_PROFILE_ENABLED
           value: "true"
         - name: CORE_PEER_TLS_ENABLED
-          value: "true"
+          value: "false"
         - name: CORE_PEER_TLS_CERT_FILE
           value: "/etc/hyperledger/fabric/tls/server.crt"
         - name: CORE_PEER_TLS_KEY_FILE

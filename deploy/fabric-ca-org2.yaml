@@ -28,7 +28,7 @@ spec:
         imagePullPolicy: Never
         ports:
         - containerPort: 7054
-        command: ["fabric-ca-server", "start", "--ca.certfile", "/etc/hyperledger/fabric-ca-server-config/ca.org2.example.com-cert.pem", "--ca.keyfile", "/etc/hyperledger/fabric-ca-server-config/b6024479226ac3b83eab5a9d808f203ad0a6f47a0c2c85fbcd4fdf43de308f1e_sk", "-b", "admin:adminpw", "-d"]
+        command: ["fabric-ca-server", "start", "--ca.certfile", "/etc/hyperledger/fabric-ca-server-config/ca.org2.example.com-cert.pem", "--ca.keyfile", "/etc/hyperledger/fabric-ca-server-config/094302a37065e2d006827ac796823b3b8709e12c316510ccb645c0d223a443f9_sk", "-b", "admin:adminpw", "-d"]
         volumeMounts:
         - mountPath: /etc/hyperledger/fabric-ca-server-config
           name: org2-ca-volume
@@ -38,11 +38,11 @@ spec:
         - name: FABRIC_CA_SERVER_CA_NAME
           value: "ca-org2"
         - name: FABRIC_CA_SERVER_TLS_ENABLED
-          value: "true"
+          value: "false"
         - name: FABRIC_CA_SERVER_TLS_CERTFILE
           value: "/etc/hyperledger/fabric-ca-server-config/ca.org2.example.com-cert.pem"
         - name: FABRIC_CA_SERVER_TLS_KEYFILE
-          value: "/etc/hyperledger/fabric-ca-server-config/b6024479226ac3b83eab5a9d808f203ad0a6f47a0c2c85fbcd4fdf43de308f1e_sk"
+          value: "/etc/hyperledger/fabric-ca-server-config/094302a37065e2d006827ac796823b3b8709e12c316510ccb645c0d223a443f9_sk"
       volumes:
       - name: org2-ca-volume
         hostPath:

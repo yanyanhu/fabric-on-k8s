@@ -52,7 +52,7 @@ spec:
         - name: ORDERER_GENERAL_LISTENPORT
           value: "7050"
         - name: ORDERER_GENERAL_TLS_ENABLED
-          value: "true"
+          value: "false"
         - name: ORDERER_GENERAL_TLS_PRIVATEKEY
           value: "/var/hyperledger/orderer/tls/server.key"
         - name: ORDERER_GENERAL_TLS_CERTIFICATE
