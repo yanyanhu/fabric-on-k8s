@@ -1,0 +1,92 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: fabric-peer0-org1
+  labels:
+    app: fabric-peer0-org1
+spec:
+  ports:
+  - port: 7051
+    targetPort: 7051
+    name: port1 # Give a more meaningful name here
+  - port: 7053
+    targetPort: 7053
+    name: port2
+  selector:
+    app: fabric-peer0-org1
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: fabric-peer0-org1
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: fabric-peer0-org1
+    spec:
+      containers:
+      - name: fabric-peer0-org1
+        image: hyperledger/fabric-peer
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 7051
+        - containerPort: 7053
+        command: ["peer", "node", "start", "--peer-defaultchain=false"]
+        volumeMounts:
+        - mountPath: /var/run/docker.sock
+          name: docker-sock-volume
+        - mountPath: /etc/hyperledger/fabric/msp
+          name: peer0-org1-msp-volume
+        - mountPath: /etc/hyperledger/fabric/tls
+          name: peer0-org1-tls-volume
+        env:
+        - name: CORE_PEER_ID
+          value: "fabric-peer0-org1"
+        - name: CORE_PEER_ADDRESS
+          value: "fabric-peer0-org1:7051"
+        - name: CORE_PEER_GOSSIP_EXTERNALENDPOINT
+          value: "fabric-peer0-org1:7051"
+        - name: CORE_PEER_GOSSIP_ORGLEADER
+          value: "true"
+        - name: CORE_PEER_LOCALMSPID
+          value: "Org1MSP"
+        - name: CORE_PEER_ADDRESSAUTODETECT
+          value: "true"
+        - name: CORE_LOGGING_LEVEL
+          value: "DEBUG"
+        - name: CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE
+          value: "e2ecli_default"
+        - name: CORE_PEER_ENDORSER_ENABLED
+          value: "true"
+        - name: CORE_PEER_COMMITTER_ENABLED
+          value: "true"
+        - name: CORE_PEER_GOSSIP_USELEADERELECTION
+          value: "true"
+        - name: CORE_PEER_GOSSIP_SKIPHANDSHAKE
+          value: "true"
+        - name: CORE_PEER_PROFILE_ENABLED
+          value: "true"
+        - name: CORE_PEER_TLS_ENABLED
+          value: "true"
+        - name: CORE_PEER_TLS_CERT_FILE
+          value: "/etc/hyperledger/fabric/tls/server.crt"
+        - name: CORE_PEER_TLS_KEY_FILE
+          value: "/etc/hyperledger/fabric/tls/server.key"
+        - name: CORE_PEER_TLS_ROOTCERT_FILE
+          value: "/etc/hyperledger/fabric/tls/ca.crt"
+        - name: CORE_LEDGER_STATE_STATEDATABASE
+          value: "CouchDB"
+        - name: CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS
+          value: "fabric-couchdb-01:5984"
+      volumes:
+      - name: docker-sock-volume
+        hostPath:
+          path: /var/run/docker.sock
+      - name: peer0-org1-msp-volume
+        hostPath:
+          path: /opt/e2e_cli/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp
+      - name: peer0-org1-tls-volume
+        hostPath:
+          path: /opt/e2e_cli/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls
