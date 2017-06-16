@@ -54,8 +54,8 @@ spec:
           value: "true"
         - name: CORE_LOGGING_LEVEL
           value: "DEBUG"
-        - name: CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE
-          value: "e2ecli_default"
+#        - name: CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE
+#          value: "e2ecli_default"
         - name: CORE_PEER_ENDORSER_ENABLED
           value: "true"
         - name: CORE_PEER_COMMITTER_ENABLED
@@ -80,6 +80,8 @@ spec:
           value: "CouchDB"
         - name: CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS
           value: "fabric-couchdb-02:5984"
+        - name: CORE_CHAINCODE_DOCKERTAG
+          value: "latest"
       volumes:
       - name: docker-sock-volume
         hostPath:

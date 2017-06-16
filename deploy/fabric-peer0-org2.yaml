@@ -54,8 +54,8 @@ spec:
           value: "true"
         - name: CORE_LOGGING_LEVEL
           value: "DEBUG"
-        - name: CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE
-          value: "e2ecli_default"
+#        - name: CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE
+#          value: "e2ecli_default"
         - name: CORE_PEER_ENDORSER_ENABLED
           value: "true"
         - name: CORE_PEER_COMMITTER_ENABLED
