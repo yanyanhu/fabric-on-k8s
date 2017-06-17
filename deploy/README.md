@@ -33,3 +33,8 @@ Perform the e2e test:
 $cd peer/
 ./scripts/init.sh
 ```
+
+## Delete fabric network
+```
+kubectl delete -f ./
+```
