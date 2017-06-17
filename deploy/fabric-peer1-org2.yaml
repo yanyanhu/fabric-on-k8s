@@ -49,7 +49,7 @@ spec:
         - name: CORE_PEER_GOSSIP_EXTERNALENDPOINT
           value: "fabric-peer1-org2:7051"
         - name: CORE_PEER_LOCALMSPID
-          value: "org2MSP"
+          value: "Org2MSP"
         - name: CORE_PEER_ADDRESSAUTODETECT
           value: "true"
         - name: CORE_LOGGING_LEVEL

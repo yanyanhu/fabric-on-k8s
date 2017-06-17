@@ -118,8 +118,7 @@ joinWithRetry () {
 }
 
 joinChannel () {
-	#for ch in 0 1 2 3; do
-	for ch in 0 1; do
+	for ch in 0 1 2 3; do
 		setGlobals $ch
 		joinWithRetry $ch
 		echo "===================== PEER$ch joined on the channel \"$CHANNEL_NAME\" ===================== "
@@ -141,7 +140,7 @@ initNetwork () {
 	updateAnchorPeers 0
 
 	#echo "Updating anchor peers for org2..."
-	#updateAnchorPeers 2
+	updateAnchorPeers 2
 
 }
 
@@ -157,10 +156,10 @@ echo "Install chaincode on org1/peer1..."
 installChaincode 1
 
 #echo "Install chaincode on org2/peer0..."
-#installChaincode 2
+installChaincode 2
 
 #echo "Install chaincode on org2/peer1..."
-#installChaincode 3
+installChaincode 3
 
 # Instantiate chaincode on Peer1/Org1
 # Instantiate can only be executed once on any node
@@ -168,13 +167,13 @@ echo "Instantiating chaincode on peer1/org1..."
 instantiateChaincode 1
 
 echo "====================6.Query the existing value of a===================================="
-chaincodeQuery  1
+chaincodeQuery  1 100
 
 echo "=====================7.Invoke a transaction to transfer 10 from a to b=================="
 chaincodeInvoke 1
 
 echo "=====================8.Check if the result of a is 90==================================="
-chaincodeQuery  1
+chaincodeQuery  1 90
 
 echo
 echo "===================== All GOOD, End-2-End script initialization completed ===================== "
